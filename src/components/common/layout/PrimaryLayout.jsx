@@ -1,23 +1,28 @@
+/* eslint-disable react/prop-types */
 import { Menu } from "antd";
+import { useNavigate } from "react-router-dom";
 import { InsertRowLeftOutlined, ProductOutlined } from "@ant-design/icons";
 
 const items = [
   {
-    key: "sub1",
+    key: "/dashboard",
     label: "Dashboard",
     icon: <ProductOutlined />,
   },
   {
-    key: "sub2",
+    key: "/manage-inventory",
     label: "Kelola Bahan Baku",
     icon: <InsertRowLeftOutlined />,
   },
 ];
 
 const PrimaryLayout = ({ children }) => {
+  const navigate = useNavigate();
+
   const onClick = (e) => {
-    console.log("click ", e);
+    navigate(e.key);
   };
+  
   return (
     <div className="flex">
       <div className="max-h-screen h-screen">
@@ -29,7 +34,7 @@ const PrimaryLayout = ({ children }) => {
           style={{
             width: 256,
           }}
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["/dashboard"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
           items={items}

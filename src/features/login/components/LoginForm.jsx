@@ -30,7 +30,7 @@ const LoginForm = () => {
           message: 'Please input your password!',
         },
       ]}>
-        <Input
+        <Input.Password
           className="text-base px-2 py-4 bg-transparent hover:bg-transparent active:bg-transparent focus:bg-transparent text-black-300 border border-gray-500 placeholder:text-black-400"
           placeholder="Password"
         />
