@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
-
 import Header from "../../components/common/header/Header";
-import InventoryTable from "./components/InventoryTable";
-import InventoryAdd from "./components/InventoryAdd";
+import UserTable from "./components/UserTable" 
+import UserAdd from "./components/UserAdd"; 
 import { message } from "antd";
 
-const ManageInventory = () => {
+const ManageAccount = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const [data, setData] = useState([]); // Menyimpan data yang ditarik dari API
+  const [data, setData] = useState([]); 
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/bahan-baku");
+      const response = await fetch("http://localhost:3000/api/user"); 
       const result = await response.json();
-      setData(result); // Menyimpan data yang diterima ke dalam state 'data'
+      setData(result); 
     } catch (error) {
       console.log(error);
       message.error("Terjadi kesalahan saat mengambil data.");
     }
   };
 
-  // Mengambil data bahan baku dari API saat komponen pertama kali di-render
   useEffect(() => {
     fetchData();
-  }, []); // Hanya dijalankan sekali saat pertama kali render
-
+  }, []); 
 
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -34,7 +31,7 @@ const ManageInventory = () => {
   return (
     <>
       <div className="relative flex flex-col bg-white">
-        <Header title="Kelola Bahan Baku" />
+        <Header title="Kelola Akun" />
 
         <div className="space-y-4">
           <div className="flex justify-end">
@@ -45,14 +42,14 @@ const ManageInventory = () => {
               Add
             </button>
           </div>
-          <InventoryTable data={data} fetchData={fetchData} />
+          <UserTable data={data} fetchData={fetchData} />
         </div>
       </div>
 
-      <InventoryAdd open={showModal} onCancel={handleShowModal} fetchData={fetchData} />
-      
+      {/* Modal Add Account */}
+      <UserAdd open={showModal} onCancel={handleShowModal} fetchData={fetchData} />
     </>
   );
 };
 
-export default ManageInventory;
+export default ManageAccount;

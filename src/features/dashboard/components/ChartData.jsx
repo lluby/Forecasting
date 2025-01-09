@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,13 +14,51 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const ChartData = () => {
-  const labels = ["January", "February", "March", "April", "May", "June", "July"];
+  const [forecastData, setForecastData] = useState([]);
+  const [bulanData, setBulanData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Mengambil data peramalan dari API
+  useEffect(() => {
+    const fetchForecastData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/forecast"); // Ganti URL dengan endpoint API Anda
+        if (response.ok) {
+          const data = await response.json();
+          setForecastData(data.forecast); // Menyimpan data peramalan yang diterima dari API
+          setBulanData(data.bulan); // Menyimpan data bulan yang diterima dari API
+        } else {
+          throw new Error("Error fetching forecast data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("Terjadi kesalahan dalam mengambil data peramalan.");
+      } finally {
+        setLoading(false); // Selesai memuat data
+      }
+    };
+
+    fetchForecastData();
+  }, []); // Efek ini dijalankan sekali setelah komponen pertama kali di-render
+
+  // Menampilkan loader jika data sedang dimuat
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // Menampilkan error jika ada kesalahan saat fetching data
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  // Data untuk chart (menggunakan data peramalan yang diterima dari API)
   const data = {
-    labels: labels,
+    labels: bulanData,  // Label bulan yang diterima dari API
     datasets: [
       {
         label: "Data Forecasting",
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: forecastData,  // Data peramalan dari API
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(255, 159, 64, 0.2)",
@@ -64,7 +102,7 @@ const ChartData = () => {
 
   return (
     <div className="bg-white p-5 w-full border rounded-lg">
-      <Bar data={data} options={options} className="" />
+      <Bar data={data} options={options} />
     </div>
   );
 };
