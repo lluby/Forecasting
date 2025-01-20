@@ -1,50 +1,50 @@
 export const MONTHS = [
   {
     label: "Januari",
-    value: "januari",
+    value: "Januari",
   },
   {
     label: "Februari",
-    value: "februari",
+    value: "Februari",
   },
   {
     label: "Maret",
-    value: "maret",
+    value: "Maret",
   },
   {
     label: "April",
-    value: "april",
+    value: "April",
   },
   {
     label: "Mei",
-    value: "mei",
+    value: "Mei",
   },
   {
     label: "Juni",
-    value: "juni",
+    value: "Juni",
   },
   {
     label: "Juli",
-    value: "juli",
+    value: "Juli",
   },
   {
     label: "Agustus",
-    value: "agustus",
+    value: "Agustus",
   },
   {
     label: "September",
-    value: "september",
+    value: "September",
   },
   {
     label: "Oktober",
-    value: "oktober",
+    value: "Oktober",
   },
   {
     label: "November",
-    value: "november",
+    value: "November",
   },
   {
     label: "Desember",
-    value: "desember",
+    value: "Desember",
   },
 ];

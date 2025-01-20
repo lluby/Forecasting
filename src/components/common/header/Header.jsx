@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const Header = ({ title = "" }) => {
   const navigate = useNavigate();
+  const role = localStorage.getItem('role'); // Ambil role dari localStorage
+  const username = localStorage.getItem('username'); // Ambil username jika ada di localStorage
 
   const handleLogout = () => {
     message.success("Successfully logout");
@@ -26,8 +28,9 @@ const Header = ({ title = "" }) => {
         <div className="flex items-center space-x-3 text-gray-700">
           <img src="./public/profile.png" alt="profile" className="w-10 h-10 rounded-full border border-gray-300" />
           <div>
-            <p className="text-gray-700 font-medium">Hi, .....!</p>
-            <p className="text-sm text-gray-500">Staff Inventory</p>
+            {/* Menampilkan username dan role sesuai login */}
+            <p className="text-gray-700 font-medium">Hi, {role === 'admin' ? 'Admin' : username || 'Staff'}!</p>
+            <p className="text-sm text-gray-500">{role === 'admin' ? 'Admin Inventory' : 'Staff Inventory'}</p>
           </div>
         </div>
       </Popover>

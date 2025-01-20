@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
-import { InsertRowLeftOutlined, ProductOutlined } from "@ant-design/icons";
+import { InsertRowLeftOutlined, ProductOutlined, HistoryOutlined, SettingOutlined } from "@ant-design/icons";
 
 const items = [
   {
@@ -14,6 +14,16 @@ const items = [
     label: "Kelola Bahan Baku",
     icon: <InsertRowLeftOutlined />,
   },
+  {
+    key: "/history",
+    label: "Riwayat User",
+    icon: <HistoryOutlined />,
+  },
+  {
+    key: "/setting",
+    label: "Setting",
+    icon: <SettingOutlined />,
+  }
 ];
 
 const PrimaryLayout = ({ children }) => {

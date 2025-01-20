@@ -2,12 +2,40 @@
 import { Form, Input, message, Modal, Select } from "antd";
 import { MONTHS } from "../../../constants";
 
-const InventoryAdd = ({ open, onCancel }) => {
-  const onFinish = (values) => {
+const InventoryAdd = ({ open, onCancel, fetchData }) => {
+  const onFinish = async (values) => {
     console.log("Success:", values);
-    message.success('Data berhasil disimpan');
-    onCancel();
+
+    const data = {
+      name: values.nama_kulit, 
+      quantity: parseFloat(values.jumlah), 
+      alpha: parseFloat(values.nilai_alpha), 
+      month: values.bulan, 
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/bahan-baku", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        message.success('Data berhasil disimpan');
+        fetchData();
+        onCancel(); 
+      } else {
+        const errorData = await response.json();
+        message.error(errorData.error || 'Terjadi kesalahan saat menyimpan data');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      message.error('Terjadi kesalahan pada koneksi');
+    }
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -57,6 +85,19 @@ const InventoryAdd = ({ open, onCancel }) => {
               </Form.Item>
 
               <Form.Item
+                label="Nilai Alpha"
+                name="nilai_alpha"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+                className="m-0 w-full"
+              >
+                <Input type="number" size="large" placeholder="Nilai Alpha" />
+              </Form.Item>
+
+              <Form.Item
                 label="Bulan"
                 name="bulan"
                 rules={[
@@ -69,19 +110,7 @@ const InventoryAdd = ({ open, onCancel }) => {
               >
                 <Select options={MONTHS} placeholder="Bulan" size="large" />
               </Form.Item>
-              <Form.Item
-                label="Hasil Forecasting"
-                name="hasil_forecasting"
-                rules={[
-                  {
-                    required: true,
-                    message: "Hasil forecasting wajib diisi!",
-                  },
-                ]}
-                className="m-0 w-full"
-              >
-                <Input type="number" size="large" placeholder="Hasil" />
-              </Form.Item>
+
             </div>
           </div>
 
